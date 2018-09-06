@@ -42,20 +42,34 @@ Give a brief summary of the approach you took, and why! Include your model's
 accuracy/precision/recall scores as well!
 
 The first step that I take is to explore the data to see if there is any columns with NAN. As seem in the jupyter notebook
-provided, there is no column that contain NA value. Then I turn to inspect the label of the training data, which I discover that
-the number of default and not default is unbalanced. Hence I decided to use a tree-based model to solve the above problem.
+provided, there is no column that contain NA value.
+Then I turn to inspect the label of the training data, which I discover that the number of default and not default is unbalanced.
+
+
+Hence I decided to use a tree-based model to solve the above problem.
 This is the reason why I choose lightgbm to solve the above problem
+
+
 However, there are a lot of hyperparameters to tune for lightbgm so I make a script to do the hyperparameter tuning as seen in tuning.py
 Finally I use the best hyperparameter for the parameter in model.py
+
+
 So here are a summary of the steps that I take:
+
+
 Step 1 : look at the data to see if there is any missing value
+
 Step 2 : look at the label to see if there is any unbalance in the cases
+
 Step 3 : determine the best model to use in this case
+
 Step 4 : perform hyperparameters tuning to obtain a better result
 
 
 Accuracy:  82.107%
+
 Precision: 66.102%
+
 Recall:    35.956%
 
 
