@@ -52,12 +52,11 @@ Step 1 : look at the data to see if there is any missing value
 Step 2 : look at the label to see if there is any unbalance in the cases
 Step 3 : determine the best model to use in this case
 Step 4 : perform hyperparameters tuning to obtain a better result
-possible improvement if I have additional time:
-1.Using F-score instead of auc to better suite the test in main
 
-Accuracy:  81.987%
-Precision: 65.972%
-Recall:    35.034%
+
+Accuracy:  82.107%
+Precision: 66.102%
+Recall:    35.956%
 
 
 ## Data Format

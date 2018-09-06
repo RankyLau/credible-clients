@@ -16,11 +16,12 @@ from sklearn.metrics import f1_score
 import numpy as np
 # custom evaluation metric using f1 from sklearn to balance between recall and precision
 def f_score(pred,train_data):
-    label = train_data.get_label()
-    pred = abs(np.round(pred))
+    ground_truth = train_data.get_label()
+    pred = (pred>0.5).astype(int)
     print(pred.shape)
-    print(label.shape)
-    return 'f1', f1_score(label, pred,average='micro'), True
+    print(ground_truth.shape)
+    label = [0,1]
+    return 'f1', f1_score(y_true= ground_truth,y_pred= pred,labels=label,average='micro'), True
 N_FOLDS = 5
 MAX_EVALS = 1000
 global ITERATION
@@ -63,10 +64,11 @@ def objective(hyperparameters):
     run_time = timer() - start
     # Perform n_folds cross validation
     cv_results = lgb.cv(hyperparameters, train_set, num_boost_round=10000, nfold=N_FOLDS,
-                        early_stopping_rounds=100,metrics=['auc'], seed=0)
-    best_score = cv_results['auc-mean'][-1]
+                        early_stopping_rounds=100,feval=f_score, seed=0)
+    print(cv_results)
+    best_score = cv_results['f1-mean'][-1]
     loss = 1 - best_score
-    n_estimators = len(cv_results['auc-mean'])
+    n_estimators = len(cv_results['f1-mean'])
     hyperparameters['n_estimators'] = n_estimators
 
     # Write to the csv file
@@ -80,7 +82,7 @@ def objective(hyperparameters):
             'train_time': run_time, 'status': STATUS_OK}
 if __name__ == '__main__':
     trials = Trials()
-    OUT_FILE = 'bayes_test.csv'
+    OUT_FILE = 'bayes_test_f1.csv'
     of_connection = open(OUT_FILE, 'w')
     writer = csv.writer(of_connection)
     ITERATION = 0

@@ -1,22 +1,25 @@
 import numpy as np
 import lightgbm as lgb
-
+#import the f-score function from tuning
+import tuning
 class CreditModel:
     def __init__(self):
         """
         Instantiates the model object, creating class variables if needed.
         """
         self.param = {'boosting_type': 'gbdt',
-                      'colsample_bytree': 0.605617785368495,
+                      'colsample_bytree': 0.9005139582685586,
                       'is_unbalance': True,
-                      'learning_rate': 0.02724405382978675,
-                      'min_child_samples': 85,
+                      'learning_rate': 0.21095433542302736,
+                      'min_child_samples': 50,
                       'num_leaves': 34,
-                      'reg_alpha': 0.948550595103363,
-                      'reg_lambda': 0.43797551614694297,
-                      'subsample_for_bin': 260000,
-                      'subsample': 0.8783598177758966,
-                    'verbose': 1, 'n_estimators': 191}
+                      'reg_alpha': 0.6584706652182384,
+                      'reg_lambda': 0.4627822841155883,
+                      'subsample_for_bin': 60000,
+                      'subsample': 0.782248105670204,
+                      'verbose': 1, 'n_estimators': 18}
+
+
 
         self.model = None
         # TODO: Initialize your model object.
@@ -38,7 +41,7 @@ class CreditModel:
         cat = ['SEX', 'EDUCATION', 'MARRIAGE']
         dataset = lgb.Dataset(data= X_train,label= y_train,feature_name=features,categorical_feature=cat)
         # we will modify the number of round based on tuning result
-        self.model = lgb.train(self.param, dataset)
+        self.model = lgb.train(self.param, dataset, feval=tuning.f_score)
 
         # TODO: Fit your model based on the given X and y.
         pass
